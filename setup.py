@@ -7,5 +7,5 @@ setup(name='mhs5200',
       url='https://github.com/jed-frey/python-mhs5200',
       author='Jed Frey',
       license='BSD',
-      packages=['python-mhs5200'],
+      packages=['mhs5200'],
       zip_safe=False)
