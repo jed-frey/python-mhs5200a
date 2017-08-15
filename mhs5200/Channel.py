@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from .utils import cmd_map
 
+
 class Channel(object):
     def __init__(self, dds, num):
         self.dds = dds

@@ -1,20 +1,26 @@
 # -*- coding: utf-8 -*-
 import serial
-from .utils import cmd_map
+
 from .Channel import Channel
+from .utils import cmd_map
 
 
 class MHS5200(object):
     def __init__(self, port="/dev/ttyUSB0"):
         # Serial configuration.
         cfg=dict()
+        # Serial Basics
         cfg["port"]=port
         cfg["baudrate"]=57600
-        cfg["xonxoff"]=False        
-        cfg["timeout"]=0.5
-        cfg["write_timeout"]=0.5
+        
+        # Flow Control
+        cfg["xonxoff"]=False
         cfg["rtscts"]=False
         cfg["dsrdtr"]=False
+        
+        # Timeouts.
+        cfg["timeout"]=0.5
+        cfg["write_timeout"]=0.5
         
         self.cfg = cfg
         # Open the serial port.
@@ -33,7 +39,6 @@ class MHS5200(object):
         
         Automatically adds the ':' prefix and CRLF to the message.        
         """
-        
         # Flush input and output buffers.
         self.serial.flushInput()
         self.serial.flushOutput()
@@ -65,16 +70,18 @@ class MHS5200(object):
         response = self.send(cmd_str, return_line=True)
         assert(response=="ok")
         
-    def save(self, memory_slot=0):
+    def save(self, slot=0):
         """
-        Save settings to a slot
+        Save settings to a memory slot.
+        
+        Memory slot 0 is the default when device is powered on.
         """
-        response = self.send("s{}u".format(memory_slot))
+        response = self.send("s{}u".format(slot))
         assert(response=="ok")
 
-    def load(self, memory_slot=0):
+    def load(self, slot=0):
         """
-        Load settings from a slot
+        Load settings from a memory slot.
         """
-        response = self.send("s{}v".format(memory_slot))
+        response = self.send("s{}v".format(slot))
         assert(response=="ok")

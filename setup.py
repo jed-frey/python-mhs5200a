@@ -8,4 +8,14 @@ setup(name='mhs5200',
       author='Jed Frey',
       license='BSD',
       packages=['mhs5200'],
-      zip_safe=False)
+      setup_requires=[
+              'pytest-runner',
+              'pyserial',
+              ],
+      tests_require=[
+              'pytest',
+              'pytest-html',
+              'pytest-flake8',
+              ],
+      zip_safe=False,
+      )
