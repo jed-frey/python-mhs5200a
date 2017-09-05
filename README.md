@@ -4,13 +4,11 @@ Python module for controlling inexpensive MHS5200 signal generators.
 
 The MHS5200 are an inexpensive family of DDS signal generators that have 16 arbitrary wave functions. However, the software is for Windows and not especially good (giant Labview compiled program with lots of issues).
 
-Developed using the $43.25 - [KKmoon High Precision Digital DDS Dual-channel Signal Source Generator Arbitrary Waveform Frequency Meter 200MSa/s 25MHz.](http://www.amznly.com/3nz) [Amazon affiliate link benefiting EFF.]
-
-Unit tests require the [python-ds1000de](https://github.com/jed-frey/python-ds1000de) for controlling Rigol DS1000DE scopes.
+Developed using the cheap [KKmoon High Precision Digital DDS Dual-channel Signal Source Generator Arbitrary Waveform Frequency Meter 200MSa/s 25MHz.](http://www.amznly.com/3nz) [Amazon affiliate link benefiting EFF.]
 
 ## Installation
 
-    pip install git+https://github.com/jed-frey/python-mhs5200.git#egg=mhs5200
+    pip install git+https://github.com/jed-frey/python_mhs5200.git#egg=mhs5200
 
 
 ## Usage
