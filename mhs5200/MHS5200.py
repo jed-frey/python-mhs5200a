@@ -28,27 +28,28 @@ class MHS5200(object):
 
         # Create a list for the channels.
         self.channels = list()
-        
+
         # Number of channels on the device.
         num_channels = 2
         # For each of the possible channels.
         for channel_number in range(num_channels):
             # Instantiate channel
-            channel_obj = Channel(self, channel_number+1)
+            channel_obj = Channel(self, channel_number + 1)
             # Append to the channel list.
             self.channels.append(channel_obj)
             # Allow referencing channel by a parameter.
-            setattr(self, "chan{}".format(channel_number+1), channel_obj)
+            setattr(self, "chan{}".format(channel_number + 1), channel_obj)
 
         # Send an empty string to flush buffers and set device to a known
         # state.
         self.send("")
-        
+
     def on(self):
         self._set(1, "on", 1)
+
     def off(self):
         self._set(1, "on", 0)
-        
+
     @property
     def model(self):
         try:
@@ -56,7 +57,7 @@ class MHS5200(object):
             return raw_model[4:]
         except:
             return ""
-        
+
     def send(self, msg="", return_line=True):
         """
         Send message over the serial port to the MHS5200 device.

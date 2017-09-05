@@ -40,6 +40,7 @@ def signal_generator(port):
     # Let Windows catch up.
     sleep(2)
 
+
 @pytest.fixture(scope='function')
 def chan1(signal_generator):
     yield signal_generator.channels[0]

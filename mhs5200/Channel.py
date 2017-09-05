@@ -24,17 +24,17 @@ class Channel(object):
             else:
                 raise(Exception("Frequency does not end with known unit"))
             value = value.strip("MkHz ")
-            value = int(value)*multiplier
+            value = int(value) * multiplier
 
         raw_value = int(value * 100)
-        
+
         self._frequency = raw_value
 
     @property
     def wave(self):
         raw_value = self._wave
         return raw_value
-    
+
     @wave.setter
     def wave(self, value):
         raw_value = value
@@ -54,17 +54,17 @@ class Channel(object):
     def offset(self):
         raw_value = self._offset
         return raw_value - 120
-    
+
     @offset.setter
     def offset(self, value):
-        raw_value = int(value+120)
+        raw_value = int(value + 120)
         self._offset = raw_value
 
     @property
     def phase(self):
         raw_value = self._phase
         return raw_value
-    
+
     @phase.setter
     def phase(self, value):
         raw_value = int(value)
@@ -92,6 +92,8 @@ class Channel(object):
         return "Channel<{}, {}V@{}Hz>".format(self.num, self.amplitude, self.frequency)
 
 # Function generator for get functions.
+
+
 def getter_gen(parameter):
     def getter_fcn(self):
         cmd = cmd_map[parameter]
