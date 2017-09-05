@@ -11,11 +11,11 @@ setup(name='mhs5200',
       setup_requires=[
               'pytest-runner',
               'pyserial',
-              ],
+      ],
       tests_require=[
-              'pytest',
-              'pytest-html',
-              'pytest-flake8',
-              ],
+          'pytest',
+          'pytest-html',
+          'pytest-flake8',
+      ],
       zip_safe=False,
       )
