@@ -1,5 +1,17 @@
+jupyter
+notebook
+nbconvert
+
 pyserial
+
 pytest
 pytest-html
 
 flake8
+pylint
+pydocstyle
+
+isort
+
+spyder
+thonny

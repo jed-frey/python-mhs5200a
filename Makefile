@@ -12,16 +12,25 @@ BASE?=setuptools wheel
 
 
 # Targets
+## No default
+.DEFAULT: null
+.PHONY: null
+null:
+	@echo No default target.
 
 ## VirtualEnv for development
-.PHONY: venv
-venv: ${PYTHON}
+.PHONY: dev
+dev: ${PYTHON}
 
-${PYTHON}: requirements.txt
+${PYTHON}: requirements.txt requirements-dev.txt
+	# Clean the existing environment.
+	${MAKE} clean
+	# Create new virtual environment.
 	python3 -mvenv .
 	${PIP} install --upgrade pip
 	${PIP} install --upgrade ${BASE}
-	${PIP} install --upgrade -r ${^}
+	${PIP} install --upgrade -r requirements.txt
+	${PIP} install --upgrade -r requirements-dev.txt
 
 
 ## Install
@@ -48,3 +57,8 @@ test:
 .PHONY: flake8
 flake8:
 	pytest --flake8
+
+## Cleanup
+.PHONY: clean
+clean:
+	git clean -xfd
