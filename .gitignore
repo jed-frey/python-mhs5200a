@@ -3,5 +3,12 @@
 **/__pycache__/*
 **/.cache/*
 **/.eggs/*
-**/.venv/*
 **/build/*
+
+**/bin/*
+**/lib/*
+**/lib64
+**/share/*
+pip-selfcheck.json
+pyvenv.cfg
+

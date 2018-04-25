@@ -1,0 +1,5 @@
+pyserial
+pytest
+pytest-html
+
+flake8
