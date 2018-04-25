@@ -1,0 +1,6 @@
+[submodule "Requirements/requirements_Requirements"]
+	path = Requirements/requirements_Requirements
+	url = https://github.com/jed-frey/requirements_Requirements.git
+[submodule "Requirements/Requirements"]
+	path = Requirements/Requirements
+	url = https://github.com/jed-frey/requirements_Requirements.git

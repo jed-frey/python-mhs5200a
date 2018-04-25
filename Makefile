@@ -31,6 +31,7 @@ ${PYTHON}: requirements.txt requirements-dev.txt
 	${PIP} install --upgrade ${BASE}
 	${PIP} install --upgrade -r requirements.txt
 	${PIP} install --upgrade -r requirements-dev.txt
+	${PIP} install --editable .
 
 
 ## Install
