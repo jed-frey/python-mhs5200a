@@ -9,6 +9,7 @@
 **/lib/*
 **/lib64
 **/share/*
+**/etc/*
 pip-selfcheck.json
 pyvenv.cfg
 
