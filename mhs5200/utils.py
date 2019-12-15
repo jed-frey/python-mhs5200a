@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 Mapping from the command name to the initialism used in the protocol.
 """

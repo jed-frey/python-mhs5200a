@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*-
 import serial
 
 from .Channel import Channel
 from .utils import cmd_map
 
 
-class MHS5200(object):
+class MHS5200:
     def __init__(self, port="/dev/ttyUSB0"):
         # Serial configuration.
         cfg = dict()
@@ -68,7 +67,7 @@ class MHS5200(object):
         self.serial.flushInput()
         self.serial.flushOutput()
         # Create the message string.
-        cmd_str = ":{}\r\n".format(msg)
+        cmd_str = f":{msg}\r\n"
         # Send the message out the serial bus.
         self.serial.write(cmd_str.encode())
         # If a return line is expected
@@ -93,7 +92,7 @@ class MHS5200(object):
         """
         cmd_str = "s{}{}{}".format(channel, cmd_map[prop], value)
         response = self.send(cmd_str, return_line=True)
-        assert(response == "ok")
+        assert response == "ok"
 
     def save(self, slot=0):
         """
@@ -101,12 +100,12 @@ class MHS5200(object):
 
         Memory slot 0 is the default when device is powered on.
         """
-        response = self.send("s{}u".format(slot))
-        assert(response == "ok")
+        response = self.send(f"s{slot}u")
+        assert response == "ok"
 
     def load(self, slot=0):
         """
         Load settings from a memory slot.
         """
-        response = self.send("s{}v".format(slot))
-        assert(response == "ok")
+        response = self.send(f"s{slot}v")
+        assert response == "ok"

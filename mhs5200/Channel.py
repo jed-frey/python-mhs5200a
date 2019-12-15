@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 from .utils import cmd_map
 
 
-class Channel(object):
+class Channel:
     def __init__(self, dds, num):
         self.dds = dds
         self.num = num
@@ -22,7 +21,7 @@ class Channel(object):
             elif value.endswith("Hz"):
                 multiplier = 1
             else:
-                raise(Exception("Frequency does not end with known unit"))
+                raise (Exception("Frequency does not end with known unit"))
             value = value.strip("MkHz ")
             value = int(value) * multiplier
 
@@ -86,10 +85,11 @@ class Channel(object):
         self.dds._set(self, "amplitude", raw_value)
 
     def __str__(self):
-        return "{}".format(self.num)
+        return f"{self.num}"
 
     def __repr__(self):
-        return "Channel<{}, {}V@{}Hz>".format(self.num, self.amplitude, self.frequency)
+        return f"Channel<{self.num}, {self.amplitude}V@{self.frequency}Hz>"
+
 
 # Function generator for get functions.
 
@@ -103,21 +103,24 @@ def getter_gen(parameter):
 
     return getter_fcn
 
+
 # Function generator for set functions.
 
 
 def setter_gen(parameter):
     def setter_fcn(self, value):
         return self.dds._set(self, parameter, value)
+
     return setter_fcn
 
 
 # Add each of the set & get methods to the Channel class.
 for attribute, _ in cmd_map.items():
-    setattr(Channel,  # Add to the channel class
-            "_{}".format(attribute),  # Prefix the attribute as 'internal'.
-            property(  # Add as a property.
-                getter_gen(attribute),  # Define getter
-                setter_gen(attribute),  # Define setter
-            ),
-            )
+    setattr(
+        Channel,  # Add to the channel class
+        f"_{attribute}",  # Prefix the attribute as 'internal'.
+        property(  # Add as a property.
+            getter_gen(attribute),  # Define getter
+            setter_gen(attribute),  # Define setter
+        ),
+    )

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from enum import IntEnum
 
 # Undecided about which method I prefer more.
