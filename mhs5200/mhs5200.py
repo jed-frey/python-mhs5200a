@@ -1,9 +1,11 @@
+import time
+
 import serial
+from cached_property import cached_property
 
 from .channel import Channel
 from .utils import cmd_map
-from cached_property import cached_property
-import time
+
 
 class MHS5200:
     def __init__(self, port="/dev/ttyUSB0"):
@@ -24,14 +26,13 @@ class MHS5200:
         # Send an empty string to flush buffers and set device to a known
         # state.
         self.send("")
-        
+
     @cached_property
-    def property(self
-    
+    def serial(self):
         # Serial configuration.
         cfg = dict()
         # Serial Basics
-        cfg["port"] = port
+        cfg["port"] = self.port
         cfg["baudrate"] = 57600
 
         # Flow Control
@@ -114,14 +115,14 @@ class MHS5200:
         """
         response = self.send(f"s{slot}v")
         assert response == "ok"
-        
+
     def __enter__(self):
         return self
-        
+
     def __exit__(self, type, value, tb):
         t1 = time.time()
         while self.serial.isOpen():
-            if time.time()>t1+5:
+            if time.time() > t1 + 5:
                 break
             self.serial.close()
             time.sleep(0.2)

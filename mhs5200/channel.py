@@ -116,4 +116,6 @@ def setter_gen(parameter):
 
 # Add each of the set & get methods to the Channel class.
 for attribute, _ in cmd_map.items():
-    setattr(Channel, f"_{attribute}", property(getter_gen(attribute), setter_gen(attribute)))  # Add to the channel class  # Prefix the attribute as 'internal'.  # Add as a property.  # Define getter  # Define setter
+    setattr(
+        Channel, f"_{attribute}", property(getter_gen(attribute), setter_gen(attribute))
+    )  # Add to the channel class  # Prefix the attribute as 'internal'.  # Add as a property.  # Define getter  # Define setter
