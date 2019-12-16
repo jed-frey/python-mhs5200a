@@ -3,13 +3,9 @@ from time import sleep
 from uuid import uuid4
 
 import pytest
-
-from mhs5200 import MHS5200
-
-
+import mhs5200
 def pytest_addoption(parser):
     parser.addoption("--port", action="store", default="", help="Serial port of MHS-5200 device.")
-
 
 @pytest.fixture(scope="session")
 def port(request):
@@ -21,21 +17,17 @@ def port(request):
             cfg_port = "/dev/ttyUSB0"
     return cfg_port
 
-
 @pytest.fixture(scope="session")
 def uuid():
     return uuid4()
 
-
 @pytest.fixture(scope="function")
 def signal_generator(port):
-    sg = MHS5200(port)
+    sg = mhs5200.MHS5200(port)
     yield sg
     # Close the serial port.
     sg.serial.close()
-    # Let Windows catch up.
-    sleep(2)
-
+    sleep(0.5)
 
 @pytest.fixture(scope="function")
 def chan1(signal_generator):

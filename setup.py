@@ -8,7 +8,7 @@ setup(
     author="Jed Frey",
     license="BSD",
     packages=["mhs5200"],
-    setup_requires=["pytest-runner", "pyserial"],
-    tests_require=["pytest", "pytest-html", "pytest-flake8"],
+    setup_requires=["pyserial"],
+    tests_require=["pytest", "pytest-html", "pytest-csv"],
     zip_safe=False,
 )
