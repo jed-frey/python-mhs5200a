@@ -2,10 +2,32 @@ import serial
 
 from .channel import Channel
 from .utils import cmd_map
-
+from cached_property import cached_property
+import time
 
 class MHS5200:
     def __init__(self, port="/dev/ttyUSB0"):
+        self.port = port
+        # Create a list for the channels.
+        self.channels = list()
+        # Number of channels on the device.
+        num_channels = 2
+        # For each of the possible channels.
+        for channel_number in range(num_channels):
+            # Instantiate channel
+            channel_obj = Channel(self, channel_number + 1)
+            # Append to the channel list.
+            self.channels.append(channel_obj)
+            # Allow referencing channel by a parameter.
+            setattr(self, "chan{}".format(channel_number + 1), channel_obj)
+
+        # Send an empty string to flush buffers and set device to a known
+        # state.
+        self.send("")
+        
+    @cached_property
+    def property(self
+    
         # Serial configuration.
         cfg = dict()
         # Serial Basics
@@ -24,24 +46,7 @@ class MHS5200:
         self.cfg = cfg
         # Open the serial port.
         self.serial = serial.Serial(**cfg)
-
-        # Create a list for the channels.
-        self.channels = list()
-
-        # Number of channels on the device.
-        num_channels = 2
-        # For each of the possible channels.
-        for channel_number in range(num_channels):
-            # Instantiate channel
-            channel_obj = Channel(self, channel_number + 1)
-            # Append to the channel list.
-            self.channels.append(channel_obj)
-            # Allow referencing channel by a parameter.
-            setattr(self, "chan{}".format(channel_number + 1), channel_obj)
-
-        # Send an empty string to flush buffers and set device to a known
-        # state.
-        self.send("")
+        return self.serial
 
     def on(self):
         self._set(1, "on", 1)
@@ -109,3 +114,14 @@ class MHS5200:
         """
         response = self.send(f"s{slot}v")
         assert response == "ok"
+        
+    def __enter__(self):
+        return self
+        
+    def __exit__(self, type, value, tb):
+        t1 = time.time()
+        while self.serial.isOpen():
+            if time.time()>t1+5:
+                break
+            self.serial.close()
+            time.sleep(0.2)
