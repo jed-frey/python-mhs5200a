@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from enum import IntEnum
 
 # Undecided about which method I prefer more.
@@ -26,8 +25,7 @@ ARB13 = 113
 ARB14 = 114
 ARB15 = 115
 
-
-class Wave(IntEnum):
+class WAVE(IntEnum):
     SINE = 0
     SQUARE = 1
     TRI = 2

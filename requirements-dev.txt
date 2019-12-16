@@ -1,5 +1,4 @@
 pyserial
 pytest
 pytest-html
-
-flake8
+pytest-csv
