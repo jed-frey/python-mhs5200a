@@ -14,4 +14,5 @@ setup(
     install_requires=["pyserial", "cached_property"],
     tests_require=["pytest", "pytest-html", "pytest-csv"],
     zip_safe=False,
+    python_requires=">=3.6",
 )

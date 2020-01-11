@@ -2,7 +2,7 @@
 
 Python module for controlling inexpensive MHS5200 signal generators.
 
-The MHS5200 are an inexpensive family of DDS signal generators that have 16 arbitrary wave functions. However, the software is for Windows and not especially good (giant Labview compiled program with lots of issues).
+The MHS5200 are an family of DDS signal generators that have 16 arbitrary wave functions. However, the software is for Windows and not especially good (giant Labview compiled program with lots of issues).
 
 Developed using the [KKmoon High Precision Digital DDS Dual-channel Signal Source Generator Arbitrary Waveform Frequency Meter 200MSa/s 25MHz.](http://www.amznly.com/3nz).
 
@@ -17,33 +17,9 @@ pip install git+https://github.com/jed-frey/python_mhs5200.git#egg=mhs5200
 
 ```python
 from mhs5200 import MHS5200
-from mhs5200.enums import WAVE
+import mhs5200.enums as WAVE
 signal_gen = MHS5200(port="/dev/ttyUSB0")
 ```
-
-### Signal Generator Object:
-
-
-```python
- for key in dir(signal_gen):
-    if key.startswith("_"):
-        continue
-    value = getattr(signal_gen, key)
-    print(f"{key}: {value}")
-```
-
-    cfg: {'port': '/dev/ttyUSB0', 'baudrate': 57600, 'xonxoff': False, 'rtscts': False, 'dsrdtr': False, 'timeout': 0.5, 'write_timeout': 0.5}
-    chan1: 1
-    chan2: 2
-    channels: [Channel<1, 20.0V@1000.0Hz>, Channel<2, 10.0V@0.5Hz>]
-    load: <bound method MHS5200.load of <mhs5200.mhs5200.MHS5200 object at 0x7fbde8341f70>>
-    model: 5225A5040000
-    off: <bound method MHS5200.off of <mhs5200.mhs5200.MHS5200 object at 0x7fbde8341f70>>
-    on: <bound method MHS5200.on of <mhs5200.mhs5200.MHS5200 object at 0x7fbde8341f70>>
-    save: <bound method MHS5200.save of <mhs5200.mhs5200.MHS5200 object at 0x7fbde8341f70>>
-    send: <bound method MHS5200.send of <mhs5200.mhs5200.MHS5200 object at 0x7fbde8341f70>>
-    serial: Serial<id=0x7fbde8341a30, open=True>(port='/dev/ttyUSB0', baudrate=57600, bytesize=8, parity='N', stopbits=1, timeout=0.5, xonxoff=False, rtscts=False, dsrdtr=False)
-
 
 Disable Generator Output
 
@@ -71,14 +47,6 @@ Load settings from a memory slot.
 
 ```python
 signal_gen.load(1)
-```
-
-Save default settings for power on.
-
-
-```python
-signal_gen.save(0)
-signal_gen.save()
 ```
 
 ### Channels:
@@ -114,84 +82,33 @@ chan1 = signal_gen.channels[0]
 chan1.frequency = 1 # Hz
 chan1.amplitude = 10 # V-pp
 chan1.offset = 0 # V
-chan1.wave = WAVE.SQUARE
+chan1.wave = WAVE.SINE
+
+chan2 = signal_gen.chan2
+chan2.frequency = 2 # Hz
+chan2.amplitude = 5 # V-pp
+chan2.offset = 2.5 # V
+chan2.wave = WAVE.SQUARE
+```
+
+Save default settings for power on. The above code block sets the power on settings.
+
+
+```python
+signal_gen.save(0)
+signal_gen.save()
 ```
 
 Read Channels
 
 
 ```python
-chan1.frequency
-```
-
-
-
-
-    1.0
-
-
-
-
-```python
-chan1.amplitude
-```
-
-
-
-
-    10.0
-
-
-
-
-```python
-chan1.offset
-```
-
-
-
-
-    0
-
-
-
-### Set All Channels
-
-For machine lab setup/teardown/make sure oscilloscope is the broken one.
-
-
-```python
 for channel in signal_gen.channels:
-    channel.frequency = 0.5
-    channel.amplitude = 10
-    channel.offset=channel.amplitude/2
-    channel.wave = WAVE.SQUARE
+    print(f"{channel.frequency}Hz, {channel.amplitude}V")
 ```
 
-### Print All Channels & Attributes
-
-
-```python
-for channel in signal_gen.channels:
-    print(f"Channel: {channel}")
-for key in dir(channel):
-        if key.startswith("_"):
-            continue
-        value = getattr(channel, key)
-        print(f"{key}: {value}")
-```
-
-    Channel: 1
-    Channel: 2
-    amplitude: 10.0
-    atten: 1
-    dds: <mhs5200.mhs5200.MHS5200 object at 0x7fbde8341f70>
-    duty_cycle: 50.0
-    frequency: 0.5
-    num: 2
-    offset: 5
-    phase: 0
-    wave: 1
+    1.0Hz, 10.0V
+    2.0Hz, 5.0V
 
 
 
@@ -199,40 +116,117 @@ for key in dir(channel):
 signal_gen.off()
 ```
 
-### WAVE enum types:
-
-Supported waves
+# Twinkle Twinkle Little Star
 
 
 ```python
-list(WAVE)
+from mhs5200.utils import songs, play_song
 ```
 
 
+```python
+play_song(signal_gen, songs["twinkle"])
+```
+
+# Tests
+
+Multiple tests are included, TODO close loop with oscilloscope.
 
 
-    [<WAVE.SINE: 0>,
-     <WAVE.SQUARE: 1>,
-     <WAVE.TRI: 2>,
-     <WAVE.UP: 3>,
-     <WAVE.DOWN: 4>,
-     <WAVE.ARB0: 100>,
-     <WAVE.ARB1: 101>,
-     <WAVE.ARB2: 102>,
-     <WAVE.ARB3: 103>,
-     <WAVE.ARB4: 104>,
-     <WAVE.ARB5: 105>,
-     <WAVE.ARB6: 106>,
-     <WAVE.ARB7: 107>,
-     <WAVE.ARB8: 108>,
-     <WAVE.ARB9: 109>,
-     <WAVE.ARB10: 110>,
-     <WAVE.ARB11: 111>,
-     <WAVE.ARB12: 112>,
-     <WAVE.ARB13: 113>,
-     <WAVE.ARB14: 114>,
-     <WAVE.ARB15: 115>]
+```python
+!pytest --port=/dev/ttyUSB0
+```
 
+    [1m============================= test session starts ==============================[0m
+    platform linux -- Python 3.8.0, pytest-5.3.2, py-1.8.1, pluggy-0.13.1
+    rootdir: /projects/OSH-HIL/components/python_mhs5200, inifile: setup.cfg
+    plugins: metadata-1.8.0, csv-2.0.2, html-2.0.1
+    collected 72 items                                                             [0m
+    
+    tests/test_amplitude.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m [ 66%]
+    [0m[32m                                                                         [ 66%][0m
+    tests/test_both_channels.py [32m.[0m[32m                                            [ 68%][0m
+    tests/test_frequency.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m                                            [ 75%][0m
+    tests/test_musical.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m                                   [ 97%][0m
+    tests/test_speakertest.py [32m.[0m[32m.[0m[32m                                             [100%][0m
+    
+    ==================================== PASSES ====================================
+    ----------------- CSV report: test-artifacts/test_artifact.csv -----------------
+    - generated html file: file:///projects/OSH-HIL/components/python_mhs5200/test-artifacts/test_artifact.html -
+    =========================== short test summary info ============================
+    PASSED tests/test_amplitude.py::test_amp[100-0.2-0]
+    PASSED tests/test_amplitude.py::test_amp[100-0.2-1]
+    PASSED tests/test_amplitude.py::test_amp[100-1-0]
+    PASSED tests/test_amplitude.py::test_amp[100-1-1]
+    PASSED tests/test_amplitude.py::test_amp[100-2-0]
+    PASSED tests/test_amplitude.py::test_amp[100-2-1]
+    PASSED tests/test_amplitude.py::test_amp[100-5-0]
+    PASSED tests/test_amplitude.py::test_amp[100-5-1]
+    PASSED tests/test_amplitude.py::test_amp[100-10-0]
+    PASSED tests/test_amplitude.py::test_amp[100-10-1]
+    PASSED tests/test_amplitude.py::test_amp[100-20-0]
+    PASSED tests/test_amplitude.py::test_amp[100-20-1]
+    PASSED tests/test_amplitude.py::test_amp[200-0.2-0]
+    PASSED tests/test_amplitude.py::test_amp[200-0.2-1]
+    PASSED tests/test_amplitude.py::test_amp[200-1-0]
+    PASSED tests/test_amplitude.py::test_amp[200-1-1]
+    PASSED tests/test_amplitude.py::test_amp[200-2-0]
+    PASSED tests/test_amplitude.py::test_amp[200-2-1]
+    PASSED tests/test_amplitude.py::test_amp[200-5-0]
+    PASSED tests/test_amplitude.py::test_amp[200-5-1]
+    PASSED tests/test_amplitude.py::test_amp[200-10-0]
+    PASSED tests/test_amplitude.py::test_amp[200-10-1]
+    PASSED tests/test_amplitude.py::test_amp[200-20-0]
+    PASSED tests/test_amplitude.py::test_amp[200-20-1]
+    PASSED tests/test_amplitude.py::test_amp[500-0.2-0]
+    PASSED tests/test_amplitude.py::test_amp[500-0.2-1]
+    PASSED tests/test_amplitude.py::test_amp[500-1-0]
+    PASSED tests/test_amplitude.py::test_amp[500-1-1]
+    PASSED tests/test_amplitude.py::test_amp[500-2-0]
+    PASSED tests/test_amplitude.py::test_amp[500-2-1]
+    PASSED tests/test_amplitude.py::test_amp[500-5-0]
+    PASSED tests/test_amplitude.py::test_amp[500-5-1]
+    PASSED tests/test_amplitude.py::test_amp[500-10-0]
+    PASSED tests/test_amplitude.py::test_amp[500-10-1]
+    PASSED tests/test_amplitude.py::test_amp[500-20-0]
+    PASSED tests/test_amplitude.py::test_amp[500-20-1]
+    PASSED tests/test_amplitude.py::test_amp[1000-0.2-0]
+    PASSED tests/test_amplitude.py::test_amp[1000-0.2-1]
+    PASSED tests/test_amplitude.py::test_amp[1000-1-0]
+    PASSED tests/test_amplitude.py::test_amp[1000-1-1]
+    PASSED tests/test_amplitude.py::test_amp[1000-2-0]
+    PASSED tests/test_amplitude.py::test_amp[1000-2-1]
+    PASSED tests/test_amplitude.py::test_amp[1000-5-0]
+    PASSED tests/test_amplitude.py::test_amp[1000-5-1]
+    PASSED tests/test_amplitude.py::test_amp[1000-10-0]
+    PASSED tests/test_amplitude.py::test_amp[1000-10-1]
+    PASSED tests/test_amplitude.py::test_amp[1000-20-0]
+    PASSED tests/test_amplitude.py::test_amp[1000-20-1]
+    PASSED tests/test_both_channels.py::test_both_freq_01
+    PASSED tests/test_frequency.py::test_freq_01
+    PASSED tests/test_frequency.py::test_freq_10
+    PASSED tests/test_frequency.py::test_freq_100
+    PASSED tests/test_frequency.py::test_freq_1MHz
+    PASSED tests/test_frequency.py::test_freq_1kHz
+    PASSED tests/test_musical.py::test_get_freq
+    PASSED tests/test_musical.py::test_scale
+    PASSED tests/test_musical.py::test_scale_parametrized[C]
+    PASSED tests/test_musical.py::test_scale_parametrized[C#]
+    PASSED tests/test_musical.py::test_scale_parametrized[D]
+    PASSED tests/test_musical.py::test_scale_parametrized[D#]
+    PASSED tests/test_musical.py::test_scale_parametrized[E]
+    PASSED tests/test_musical.py::test_scale_parametrized[F]
+    PASSED tests/test_musical.py::test_scale_parametrized[F#]
+    PASSED tests/test_musical.py::test_scale_parametrized[G]
+    PASSED tests/test_musical.py::test_scale_parametrized[G#]
+    PASSED tests/test_musical.py::test_scale_parametrized[A]
+    PASSED tests/test_musical.py::test_scale_parametrized[A#]
+    PASSED tests/test_musical.py::test_scale_parametrized[B]
+    PASSED tests/test_musical.py::test_songs[CCGGAAGFFEEDDCGGFFEEDGGFFEEDCCGGAAGFFEEDDC]
+    PASSED tests/test_musical.py::test_songs[CDFFFFFFFFCDFFFFFFFFCDFFFFFFFFFFE]
+    PASSED tests/test_speakertest.py::test_both_square
+    PASSED tests/test_speakertest.py::test_both_sine
+    [32m======================== [32m[1m72 passed[0m[32m in 121.86s (0:02:01)[0m[32m ========================[0m
 
 
 # Additional Links
@@ -247,8 +241,10 @@ Credit for all of the hard work goes to user `wd5gnr` from [EEV Blog](https://ww
 
 # TODO
 
-- Integrate with [python-ivi](https://github.com/python-ivi/python-ivi).
+- Integrate / test against [python-ivi](https://github.com/python-ivi/python-ivi) &/| [InstrumentKit](https://github.com/Galvant/InstrumentKit)
 - Test on another MHS-5200 device.
+- Better crossplatfor testing.
 - Arbitrary waveforms.
 - External measurements.
 - Better documentation.
+- Closed loop testing.

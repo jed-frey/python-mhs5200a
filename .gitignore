@@ -16,3 +16,4 @@ pyvenv.cfg
 
 **/test-artifacts/*
 **/.tox/*
+**/dist/*

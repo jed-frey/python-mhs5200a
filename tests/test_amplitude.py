@@ -1,6 +1,9 @@
 import time
+
 import pytest
+
 import mhs5200
+
 
 @pytest.mark.parametrize("channel", [0, 1])
 @pytest.mark.parametrize("amplitude", [0.2, 1, 2, 5, 10, 20])
