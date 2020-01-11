@@ -1,9 +1,0 @@
-id,module,name,file,doc,markers,status,message,duration
-tests/test_amplitude.py::test_amp_002,tests.test_amplitude,test_amp_002,tests/test_amplitude.py,,,passed,,0.037065982818603516
-tests/test_amplitude.py::test_amp_020,tests.test_amplitude,test_amp_020,tests/test_amplitude.py,,,passed,,0.02678060531616211
-tests/test_amplitude.py::test_amp_200,tests.test_amplitude,test_amp_200,tests/test_amplitude.py,,,passed,,0.026092529296875
-tests/test_frequency.py::test_freq_01,tests.test_frequency,test_freq_01,tests/test_frequency.py,,,passed,,0.028775930404663086
-tests/test_frequency.py::test_freq_10,tests.test_frequency,test_freq_10,tests/test_frequency.py,,,passed,,0.026935338973999023
-tests/test_frequency.py::test_freq_100,tests.test_frequency,test_freq_100,tests/test_frequency.py,,,passed,,0.029599428176879883
-tests/test_frequency.py::test_freq_1MHz,tests.test_frequency,test_freq_1MHz,tests/test_frequency.py,,,passed,,0.030294179916381836
-tests/test_frequency.py::test_freq_1kHz,tests.test_frequency,test_freq_1kHz,tests/test_frequency.py,,,passed,,0.029373645782470703

@@ -1,4 +1,0 @@
-pyserial
-pytest
-pytest-html
-pytest-csv

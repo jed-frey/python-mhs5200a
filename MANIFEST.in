@@ -1,0 +1,7 @@
+include versioneer.py
+include mhs5200/_version.py
+
+recursive-include Examples *.ipynb
+recursive-include waves *.csv
+
+LICENSE

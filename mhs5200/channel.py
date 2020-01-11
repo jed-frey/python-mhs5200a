@@ -3,16 +3,41 @@ from .utils import cmd_map
 
 class Channel:
     def __init__(self, dds, num):
+        """
+
+        dds: signal generator class
+
+        """
         self.dds = dds
         self.num = num
 
+    def on(self):
+        """ Turn channel off.
+
+        (Both channels are turned on and off together).
+        """
+        self.dds.on()
+
+    def off(self):
+        """ Turn channel off.
+
+        (Both channels are turned on and off together).
+        """
+        self.dds.off()
+
     @property
     def frequency(self):
+        """ Get the frequency.
+
+        """
         raw_value = self._frequency
         return float(raw_value) / 100
 
     @frequency.setter
     def frequency(self, value):
+        """ Set the frequency of the channel. """
+
+        # Accept strings with knows SI units.
         if isinstance(value, str):
             if value.endswith("MHz"):
                 multiplier = 1000000
@@ -22,7 +47,9 @@ class Channel:
                 multiplier = 1
             else:
                 raise (Exception("Frequency does not end with known unit"))
+            # Strip off the suffix
             value = value.strip("MkHz ")
+            # Convert the value to an int and
             value = int(value) * multiplier
 
         raw_value = int(value * 100)
@@ -117,5 +144,7 @@ def setter_gen(parameter):
 # Add each of the set & get methods to the Channel class.
 for attribute, _ in cmd_map.items():
     setattr(
-        Channel, f"_{attribute}", property(getter_gen(attribute), setter_gen(attribute))
+        Channel,
+        f"_{attribute}",
+        property(getter_gen(attribute), setter_gen(attribute)),
     )  # Add to the channel class  # Prefix the attribute as 'internal'.  # Add as a property.  # Define getter  # Define setter

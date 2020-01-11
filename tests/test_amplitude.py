@@ -1,19 +1,15 @@
-def test_amp_002(signal_generator):
-    chan1 = signal_generator.channels[0]
-    amplitude = 0.2
-    chan1.amplitude = amplitude
-    assert chan1.amplitude == amplitude
+import time
+import pytest
+import mhs5200
 
-
-def test_amp_020(signal_generator):
-    chan1 = signal_generator.channels[0]
-    amplitude = 2
-    chan1.amplitude = amplitude
-    assert chan1.amplitude == amplitude
-
-
-def test_amp_200(signal_generator):
-    chan1 = signal_generator.channels[0]
-    amplitude = 20
-    chan1.amplitude = amplitude
-    assert chan1.amplitude == amplitude
+@pytest.mark.parametrize("channel", [0, 1])
+@pytest.mark.parametrize("amplitude", [0.2, 1, 2, 5, 10, 20])
+@pytest.mark.parametrize("frequency", [100, 200, 500, 1000])
+def test_amp(signal_generator, channel, amplitude, frequency):
+    chan = signal_generator.channels[channel]
+    chan.amplitude = amplitude
+    chan.frequency = frequency
+    chan.wave = mhs5200.enums.SINE
+    time.sleep(0.5)
+    assert chan.amplitude == amplitude
+    assert chan.frequency == frequency

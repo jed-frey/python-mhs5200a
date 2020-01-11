@@ -50,9 +50,11 @@ class MHS5200:
         return self.serial
 
     def on(self):
+        """Turn device output on."""
         self._set(1, "on", 1)
 
     def off(self):
+        """Turn device output off."""
         self._set(1, "on", 0)
 
     @property
@@ -67,7 +69,7 @@ class MHS5200:
         """
         Send message over the serial port to the MHS5200 device.
 
-        Automatically adds the ':' prefix and CRLF to the message.        
+        Automatically adds the ':' prefix and CRLF to the message.
         """
         # Flush input and output buffers.
         self.serial.flushInput()
@@ -117,9 +119,15 @@ class MHS5200:
         assert response == "ok"
 
     def __enter__(self):
+        """Enter from context management.
+
+        """
         return self
 
     def __exit__(self, type, value, tb):
+        """Exit from context management.
+
+        """
         t1 = time.time()
         while self.serial.isOpen():
             if time.time() > t1 + 5:
