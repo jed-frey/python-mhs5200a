@@ -11,7 +11,7 @@ setup(
     author="Frey, Jed",
     license="BSD",
     packages=["mhs5200"],
-    setup_requires=["pyserial", "cached_property"],
+    install_requires=["pyserial", "cached_property"],
     tests_require=["pytest", "pytest-html", "pytest-csv"],
     zip_safe=False,
 )

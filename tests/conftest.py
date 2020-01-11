@@ -39,7 +39,10 @@ def signal_generator(port):
     sg.serial.close()
     sleep(0.5)
 
-
 @pytest.fixture(scope="function")
 def chan1(signal_generator):
     yield signal_generator.channels[0]
+    
+@pytest.fixture(scope="function")
+def chan2(signal_generator):
+    yield signal_generator.channels[1]
