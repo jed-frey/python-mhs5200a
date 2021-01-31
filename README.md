@@ -9,7 +9,7 @@ Developed using the [KKmoon High Precision Digital DDS Dual-channel Signal Sourc
 ## Installation
 
 ```
-pip install git+https://github.com/jed-frey/python_mhs5200.git#egg=mhs5200
+pip install git+https://github.com/dapperfu/python_mhs5200.git#egg=mhs5200
 ```
 
 ## Useage Examples:
